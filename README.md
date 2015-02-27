@@ -98,12 +98,6 @@ SERVER_NAME="ccc.raisingthefloor.org"
 BASEDIR="oatts"
 ```
 
-### Build your own image
-
-This container takes the OATTS Server code from the `data` directory
-
-    docker build --rm=true -t trace/oatts-server .
-
 ## Development and testing
 
   A Vagrantfile is provided in order to make easier the testing and the development of the application. [Vagrant application](https://www.vagrantup.com/) and [Virtualbox](https://www.virtualbox.org/) are needed to boot a virtual machine with all the stuff inside it.
