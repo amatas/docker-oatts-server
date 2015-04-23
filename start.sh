@@ -16,49 +16,28 @@ if [ ! -z $LOADDB ]; then
     exit 0
 fi
 
-rm -f /var/www/etc/oattsincludes/config/*
-cat >/var/www/etc/oattsincludes/config/server.php<<EOF
+rm -f /var/www/etc/oattsincludes/config/server_config*.php
+cat >/var/www/etc/oattsincludes/config/server_config.php<<EOF
 <?php
-//if set, setting will override local settings
-\$globalDebug = false;
+\$globalDebug = false;   // if set, setting will override local settings
 
-define("SECURE", $HTTP_SECURE);    // FOR HTTPS
-define("SQL_SECURE",$SQL_SECURE);  //for mysql over ssl
-define("BASEIP",'$BASEIP');
-define("HOST", "$DBHOST");   // The host you want to connect to.
-define("USER", "$DBUSER"); // The database username. 
-define("PASSWORD", '$DBPASSWORD');// The database password. 
-define("DATABASE", "$DBDB");    // The database name.
-
-define("BASEDIR", '$BASEDIR');
-define("WIDGETSDIR", 'widgets');
-define("WIDGET_ABS_PATH", \$_SERVER["DOCUMENT_ROOT"] . "/" . BASEDIR . "/" . WIDGETSDIR);
-define("BOOKMARKICONSDIR", 'bookmark_icons');
-define("BOOKMARKICONS_ABS_PATH", \$_SERVER["DOCUMENT_ROOT"] . "/" . BASEDIR . "/" . BOOKMARKICONSDIR);
-
-if (SECURE === false) {
-    define("PROTOCOL", 'http');
-} else {
-    define("PROTOCOL", 'https');
-}
-
-\$baseURL = PROTOCOL."://". BASEIP. "/" . BASEDIR;
-define('REGISTERED', 10);
-define('DATA_SIZE_LIMIT', 40000);
-define("MAX_SESSION_IDLETIME", 3600 * 15);   //seconds-> hours
-define("MAX_COOKIE_LIFETIME", 3600 * 16);   //seconds-> hours
-define("HEART_BEAT_RATE", 1000 * 60);   //milliseconds-> seconds
-
-define("DEFAULT_USER_AGENT", "OATTS_CLIENT_v2_0");   //until we come up with something better
-
-define('MAX_LOGIN_ATTEMPTS', 5);
-define('MIN_LOGIN_WAIT', 60 * 2);
+define("SECURE", $HTTP_SECURE);   // for HTTPS
+define("SQL_SECURE", $SQL_SECURE);   //for mysql over ssl
+define("BASEIP", '$BASEIP');
+define("BASEDIR", '$BASEDIR');   // what goes after BASEIP - include leading slash if not empty
+define("HOST", "$DBHOST");   // the host you want to connect to
+define("USER", "$DBUSER");   // the database username
+define("PASSWORD", '$DBPASSWORD');   // the database password
+define("DATABASE", "$DBDB");   // the database name
+?>
 EOF
 
 rm -f /var/www/html/oatts/includes/path*.php
 cat >/var/www/html/oatts/includes/path.php<<EOF
 <?php
-    defined('ROOT_PATH') or define('ROOT_PATH','/var/www/etc/oattsincludes');
+defined('SERVER_CONTEXT_LABEL') or define('SERVER_CONTEXT_LABEL', 'RtF');   // also used as part of an OATTS App version / variant text suffix
+defined('ROOT_PATH') or define('ROOT_PATH','/var/www/etc/oattsincludes');
+?>
 EOF
 
 chown nginx:nginx /var/www -R
