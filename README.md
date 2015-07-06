@@ -107,7 +107,7 @@ BASEDIR="oatts"
   ```
   git clone https://github.com/gpii-ops/docker-oatts.git
   cd docker-oatts
-  git clone https://github.com/GPII/controllable-crowd-caption-correction.git src
+  git clone https://github.com/GPII/open-access-tool-tray-system.git src
   cp -a src/OATTS\ Server-Side data
   ```
   
